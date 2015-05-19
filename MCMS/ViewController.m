@@ -7,8 +7,9 @@
 //
 
 #import "ViewController.h"
+#import "MagicalCreature.h"
 
-@interface ViewController ()
+@interface ViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @end
 
@@ -16,12 +17,33 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+
+    MagicalCreature *unicorn = [MagicalCreature new];
+    MagicalCreature *chupacabra = [MagicalCreature new];
+    MagicalCreature *catdog = [MagicalCreature new];
+
+    unicorn.name = @"Unicorn";
+    chupacabra.name = @"Chupacabra";
+    catdog.name = @"Catdog";
+
+    self.creatures = [NSMutableArray arrayWithObjects:unicorn, chupacabra, catdog, nil];
+
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+
+    return self.creatures.count;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellID"];
+
+    MagicalCreature *creature = [self.creatures objectAtIndex:indexPath.row];
+
+    cell.textLabel.text = creature.name;
+
+    return cell;
 }
 
 @end
