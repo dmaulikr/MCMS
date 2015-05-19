@@ -8,12 +8,13 @@
 
 #import "ViewController.h"
 #import "MagicalCreature.h"
+#import "CreatureViewController.h"
 
 @interface ViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITextField *creatureTextField;
 
-@property (weak, nonatomic) IBOutlet UITextField *accessoryTextField;
+@property (weak, nonatomic) IBOutlet UITextField *detailTextField;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
@@ -21,10 +22,12 @@
 
 @implementation ViewController
 
+@synthesize creatures;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    MagicalCreature *unicorn = [MagicalCreature new];
+    MagicalCreature *unicorn = [[MagicalCreature alloc] initWithName:@"Unicorn" andDetail:@"Horn"];
     MagicalCreature *chupacabra = [MagicalCreature new];
     MagicalCreature *catdog = [MagicalCreature new];
 
@@ -34,6 +37,11 @@
 
     self.creatures = [NSMutableArray arrayWithObjects:unicorn, chupacabra, catdog, nil];
 
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+
+    [self.tableView reloadData];
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -56,19 +64,34 @@
 
     NSLog(@"BOO");
 
-    if (![self.creatureTextField.text isEqualToString:@""] && ![self.accessoryTextField.text isEqualToString:@""]) {
+    if (![self.creatureTextField.text isEqualToString:@""] && ![self.detailTextField.text isEqualToString:@""]) {
 
         NSLog(@"YAY");
 
-        MagicalCreature *creature = [[MagicalCreature alloc] initWithName:self.creatureTextField.text andAccessory:self.accessoryTextField.text];
+        MagicalCreature *creature = [[MagicalCreature alloc] initWithName:self.creatureTextField.text andDetail:self.detailTextField.text];
 
         [self.creatures addObject:creature];
 
         self.creatureTextField.text = @"";
-        self.accessoryTextField.text = @"";
+        self.detailTextField.text = @"";
 
         [self.tableView reloadData];
     }
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+
+    CreatureViewController *creatureVC = [segue destinationViewController];
+
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+    MagicalCreature *creature = [self.creatures objectAtIndex:indexPath.row];
+
+    creatureVC.creature = creature;
+
+    [self.creatures replaceObjectAtIndex:indexPath.row withObject:creatureVC.creature];
+
+//    creatureVC.creatureName = creature.name;
+//    creatureVC.accessory = creature.accessory;
 }
 
 

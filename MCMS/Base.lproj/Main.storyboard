@@ -25,6 +25,9 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gMD-Fv-5zf" id="ihT-hB-C44">
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="1gc-yw-IYI" kind="show" identifier="ShowCreatureSegue" id="SQ9-wK-vzl"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <variation key="widthClass=compact" fixedFrame="YES">
@@ -85,14 +88,96 @@
                     </view>
                     <navigationItem key="navigationItem" id="nXa-xC-UAs"/>
                     <connections>
-                        <outlet property="accessoryTextField" destination="aiT-lh-MKk" id="sOc-3l-PAr"/>
                         <outlet property="creatureTextField" destination="U21-Pw-X1t" id="GOT-vs-oZ2"/>
+                        <outlet property="detailTextField" destination="aiT-lh-MKk" id="cBE-T4-BTr"/>
                         <outlet property="tableView" destination="yGj-oV-EPT" id="4nu-uO-ZkP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1222.5" y="357"/>
+        </scene>
+        <!--Creature View Controller-->
+        <scene sceneID="uSh-dJ-jU2">
+            <objects>
+                <viewController id="1gc-yw-IYI" customClass="CreatureViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="8Ey-e8-g3S"/>
+                        <viewControllerLayoutGuide type="bottom" id="MNa-ci-uFm"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="yap-O5-hjV">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gZN-i3-ap5">
+                                <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="16" y="76" width="368" height="30"/>
+                                </variation>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tcq-Rf-Ro6">
+                                <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="0.0" y="64" width="400" height="54"/>
+                                </variation>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="r23-od-A4Q">
+                                <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="16" y="285" width="368" height="30"/>
+                                </variation>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A07-6x-2dK">
+                                <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="0.0" y="273" width="400" height="54"/>
+                                </variation>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="gZN-i3-ap5"/>
+                                <exclude reference="Tcq-Rf-Ro6"/>
+                                <exclude reference="r23-od-A4Q"/>
+                                <exclude reference="A07-6x-2dK"/>
+                            </mask>
+                        </variation>
+                        <variation key="widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="gZN-i3-ap5"/>
+                                <include reference="Tcq-Rf-Ro6"/>
+                                <include reference="r23-od-A4Q"/>
+                                <include reference="A07-6x-2dK"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <navigationItem key="navigationItem" id="xPw-9T-PCY">
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="3wb-wm-KfD">
+                            <connections>
+                                <action selector="onEditTapped:" destination="1gc-yw-IYI" id="f7C-Cy-29j"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="accessoryLabel" destination="A07-6x-2dK" id="FJn-wQ-1XE"/>
+                        <outlet property="accessoryTextField" destination="r23-od-A4Q" id="A1v-VC-LcN"/>
+                        <outlet property="creatureNameLabel" destination="Tcq-Rf-Ro6" id="LjM-oP-Cne"/>
+                        <outlet property="creatureNameTextField" destination="gZN-i3-ap5" id="ULT-B0-Jlp"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mzh-Os-bE7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1933.5" y="357"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="fi9-ix-0YQ">
