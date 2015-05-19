@@ -11,6 +11,12 @@
 
 @interface ViewController () <UITableViewDelegate, UITableViewDataSource>
 
+@property (weak, nonatomic) IBOutlet UITextField *creatureTextField;
+
+@property (weak, nonatomic) IBOutlet UITextField *accessoryTextField;
+
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
 @end
 
 @implementation ViewController
@@ -45,5 +51,25 @@
 
     return cell;
 }
+
+- (IBAction)onAddButtonTapped:(UIButton *)sender {
+
+    NSLog(@"BOO");
+
+    if (![self.creatureTextField.text isEqualToString:@""] && ![self.accessoryTextField.text isEqualToString:@""]) {
+
+        NSLog(@"YAY");
+
+        MagicalCreature *creature = [[MagicalCreature alloc] initWithName:self.creatureTextField.text andAccessory:self.accessoryTextField.text];
+
+        [self.creatures addObject:creature];
+
+        self.creatureTextField.text = @"";
+        self.accessoryTextField.text = @"";
+
+        [self.tableView reloadData];
+    }
+}
+
 
 @end
