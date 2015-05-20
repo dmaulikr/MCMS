@@ -8,14 +8,17 @@
 
 #import "CreatureViewController.h"
 #import "ViewController.h"
+#import "Accessory.h"
 
-@interface CreatureViewController ()
+@interface CreatureViewController () <UITableViewDelegate, UITableViewDataSource>
+
 @property (weak, nonatomic) IBOutlet UILabel *creatureNameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *accessoryLabel;
+@property (weak, nonatomic) IBOutlet UILabel *detailLabel;
 
 @property (weak, nonatomic) IBOutlet UITextField *creatureNameTextField;
+@property (weak, nonatomic) IBOutlet UITextField *detailTextField;
 
-@property (weak, nonatomic) IBOutlet UITextField *accessoryTextField;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
@@ -25,13 +28,66 @@
     [super viewDidLoad];
 
     self.creatureNameTextField.hidden = YES;
-    self.accessoryTextField.hidden = YES;
+    self.detailTextField.hidden = YES;
     self.editing = false;
 
     self.creatureNameLabel.text = self.creature.name;
-    self.accessoryLabel.text = self.creature.detail;
+    self.detailLabel.text = self.creature.detail;
 
 
+//    Accessory *sword = [[Accessory alloc] initWithName:@"Sword" andValue:5];
+//    Accessory *spear = [[Accessory alloc] initWithName:@"Spear" andValue:4];
+//    Accessory *lightSaber = [[Accessory alloc] initWithName:@"Lightsaber" andValue:7];
+//    Accessory *nunchucks = [[Accessory alloc] initWithName:@"Nunchucks" andValue:3];
+//    Accessory *tshirtLauncher = [[Accessory alloc] initWithName:@"Tshirt Launcher" andValue:2];
+//    Accessory *pillow = [[Accessory alloc] initWithName:@"Pillow" andValue:1];
+//    Accessory *hammerOfThor = [[Accessory alloc] initWithName:@"Hammer of Thor" andValue:10];
+//
+//    self.accessories = [NSMutableArray arrayWithObjects:sword, spear, lightSaber, nunchucks, tshirtLauncher, pillow, hammerOfThor, nil];
+
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+
+    return self.accessories.count;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AccessoryCellID"];
+
+    Accessory *accessory = self.accessories[indexPath.row];
+
+    cell.textLabel.text = accessory.name;
+
+    if ([self.creature.accessories containsObject:self.accessories[indexPath.row]]) {
+
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
+
+    return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+
+    if (cell.accessoryType != UITableViewCellAccessoryCheckmark) {
+
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+
+        Accessory *accessory = [self.accessories objectAtIndex:indexPath.row];
+
+        [self.creature.accessories addObject:accessory];
+
+    } else {
+
+        cell.accessoryType = UITableViewCellAccessoryNone;
+
+        [self.creature.accessories removeObject:self.accessories[indexPath.row]];
+    }
+
+//    cell.accessoryType = UITableViewCellAccessoryCheckmark;
 }
 
 - (IBAction)onEditTapped:(UIBarButtonItem *)sender {
@@ -40,23 +96,22 @@
 
         self.editing = false;
 
-        if (![self.creatureNameTextField.text isEqualToString:@""] && ![self.accessoryTextField.text isEqualToString:@""]) {
+        if (![self.creatureNameTextField.text isEqualToString:@""] && ![self.detailTextField.text isEqualToString:@""]) {
 
             self.creatureNameLabel.text = self.creatureNameTextField.text;
-            self.accessoryLabel.text = self.accessoryTextField.text;
+            self.detailLabel.text = self.detailTextField.text;
 
             self.creatureNameTextField.text = @"";
-            self.accessoryTextField.text = @"";
+            self.detailTextField.text = @"";
 
             self.creature.name = self.creatureNameLabel.text;
-            self.creature.detail = self.accessoryLabel.text;
-
+            self.creature.detail = self.detailLabel.text;
         }
 
         self.creatureNameLabel.hidden = NO;
-        self.accessoryLabel.hidden = NO;
+        self.detailLabel.hidden = NO;
 
-        self.accessoryTextField.hidden = YES;
+        self.detailTextField.hidden = YES;
         self.creatureNameTextField.hidden = YES;
 
         sender.title = @"Edit";
@@ -66,15 +121,14 @@
         self.editing = true;
 
         self.creatureNameLabel.hidden = YES;
-        self.accessoryLabel.hidden = YES;
+        self.detailLabel.hidden = YES;
 
-        self.accessoryTextField.hidden = NO;
+        self.detailTextField.hidden = NO;
         self.creatureNameTextField.hidden = NO;
 
         sender.title = @"Done";
         sender.style = UIBarButtonItemStyleDone;
     }
-
 }
 
 @end

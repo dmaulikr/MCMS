@@ -12,6 +12,7 @@
 
 @property NSString *name;
 @property NSString *detail;
+@property NSMutableArray *accessories;
 
 -(instancetype)initWithName:(NSString *)name andDetail:(NSString *)detail;
 

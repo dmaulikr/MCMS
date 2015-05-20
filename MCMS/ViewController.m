@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "MagicalCreature.h"
 #import "CreatureViewController.h"
+#import "Accessory.h"
 
 @interface ViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -28,14 +29,20 @@
     [super viewDidLoad];
 
     MagicalCreature *unicorn = [[MagicalCreature alloc] initWithName:@"Unicorn" andDetail:@"Horn"];
-    MagicalCreature *chupacabra = [MagicalCreature new];
-    MagicalCreature *catdog = [MagicalCreature new];
-
-    unicorn.name = @"Unicorn";
-    chupacabra.name = @"Chupacabra";
-    catdog.name = @"Catdog";
+    MagicalCreature *chupacabra = [[MagicalCreature alloc] initWithName:@"Chupacabra" andDetail:@"Claws"];
+    MagicalCreature *catdog = [[MagicalCreature new] initWithName:@"CatDog" andDetail:@"Sharp teeth"];
 
     self.creatures = [NSMutableArray arrayWithObjects:unicorn, chupacabra, catdog, nil];
+
+    Accessory *sword = [[Accessory alloc] initWithName:@"Sword" andValue:5];
+    Accessory *spear = [[Accessory alloc] initWithName:@"Spear" andValue:4];
+    Accessory *lightSaber = [[Accessory alloc] initWithName:@"Lightsaber" andValue:7];
+    Accessory *nunchucks = [[Accessory alloc] initWithName:@"Nunchucks" andValue:3];
+    Accessory *tshirtLauncher = [[Accessory alloc] initWithName:@"Tshirt Launcher" andValue:2];
+    Accessory *pillow = [[Accessory alloc] initWithName:@"Pillow" andValue:1];
+    Accessory *hammerOfThor = [[Accessory alloc] initWithName:@"Hammer of Thor" andValue:10];
+
+    self.accessories = [NSMutableArray arrayWithObjects:sword, spear, lightSaber, nunchucks, tshirtLauncher, pillow, hammerOfThor, nil];
 
 }
 
@@ -56,17 +63,14 @@
     MagicalCreature *creature = [self.creatures objectAtIndex:indexPath.row];
 
     cell.textLabel.text = creature.name;
+    cell.detailTextLabel.text = creature.detail;
 
     return cell;
 }
 
 - (IBAction)onAddButtonTapped:(UIButton *)sender {
 
-    NSLog(@"BOO");
-
     if (![self.creatureTextField.text isEqualToString:@""] && ![self.detailTextField.text isEqualToString:@""]) {
-
-        NSLog(@"YAY");
 
         MagicalCreature *creature = [[MagicalCreature alloc] initWithName:self.creatureTextField.text andDetail:self.detailTextField.text];
 
@@ -87,6 +91,7 @@
     MagicalCreature *creature = [self.creatures objectAtIndex:indexPath.row];
 
     creatureVC.creature = creature;
+    creatureVC.accessories = self.accessories;
 
     [self.creatures replaceObjectAtIndex:indexPath.row withObject:creatureVC.creature];
 

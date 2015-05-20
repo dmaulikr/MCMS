@@ -17,6 +17,7 @@
     if (self) {
         self.name = name;
         self.detail = detail;
+        self.accessories = [NSMutableArray new];
     }
 
     return self;

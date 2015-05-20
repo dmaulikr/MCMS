@@ -16,4 +16,6 @@
 
 @property MagicalCreature *creature;
 
+@property NSMutableArray *accessories;
+
 @end
